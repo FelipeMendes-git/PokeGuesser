@@ -27,6 +27,9 @@ function Home() {
 
   // Guarda o histórico de tentativas
   const [tentativas, setTentativas] = useState([]);
+  
+  // Controla se o jogador acertou
+  const [acertou, setAcertou] = useState(false);
 
   // Filtra pokémons baseado no texto digitado
   const pokemonsFiltrados = listaPokemon.filter(pokemon => 
@@ -55,6 +58,10 @@ function Home() {
     const response = await fetch("/api/listaPokemon");
     const data = await response.json();
     setListaPokemon(data.pokemons); // Guarda no estado
+    // Gera pokémon automaticamente após carregar a lista
+    if (data.pokemons.length > 0) {
+      gerarPokemonAleatorio();
+    }
   }
 
   // Gera um pokémon aleatório
@@ -65,6 +72,7 @@ function Home() {
     setTentativas([]); // Limpa as tentativas anteriores
     setPokemonSelecionado(''); // Limpa a seleção
     setBuscaTexto(''); // Limpa o texto de busca
+    setAcertou(false); // Reseta o estado de acerto
   }
 
   // Envia a tentativa para o backend
@@ -82,14 +90,13 @@ function Home() {
     const resultado = await response.json();
     const dadosTentativa = resultado.dadosTentativa;
     
-    // Adiciona a tentativa ao histórico
-    setTentativas([...tentativas, resultado]);
+    // Adiciona a tentativa ao histórico (no início)
+    setTentativas([resultado, ...tentativas]);
     
     if (resultado.comparacao.nomeCorreto) {
+      setAcertou(true);
       alert("Parabéns! Você acertou o pokémon secreto!");
     }
-
-    console.log("Resultado da tentativa:", resultado);
   }
 
   return (
@@ -128,24 +135,25 @@ function Home() {
       </div>
       
       <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-        <button 
-          onClick={gerarPokemonAleatorio}
-          style={{
-            padding: '15px 30px',
-            fontSize: '16px',
-            backgroundColor: '#0004f7',
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            marginRight: '10px'
-          }}
-        >
-          Gerar Pokemon Aleatório
-        </button>
-        
-        {pokemonSecreto && (
-          <span style={{ color: 'green', fontWeight: 'bold' }}>✅</span>
+        {acertou && (
+          <>
+            <button 
+              onClick={gerarPokemonAleatorio}
+              style={{
+                padding: '15px 30px',
+                fontSize: '16px',
+                backgroundColor: '#4CAF50',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                marginRight: '10px'
+              }}
+            >
+              🎉 Tentar Novamente
+            </button>
+            <span style={{ color: 'gold', fontWeight: 'bold', fontSize: '20px' }}>🏆 Você acertou!</span>
+          </>
         )}
       </div>
 
@@ -254,7 +262,7 @@ function Home() {
               }}
             >
               <h3 style={{ marginTop: 0, color: '#555' }}>
-                Tentativa {index + 1}: {tentativa.dadosTentativa.name.toUpperCase()}
+                {tentativa.dadosTentativa.name.toUpperCase()}
               </h3>
               
               <div style={{ 
