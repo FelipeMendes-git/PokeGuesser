@@ -32,7 +32,7 @@ function Home() {
   const [acertou, setAcertou] = useState(false);
 
   // Filtra pokémons baseado no texto digitado
-  const pokemonsFiltrados = listaPokemon.filter(pokemon => 
+  const pokemonsFiltrados = (listaPokemon || []).filter(pokemon => 
     pokemon.displayName.toLowerCase().includes(buscaTexto.toLowerCase())
   );
 
@@ -90,12 +90,12 @@ function Home() {
     const resultado = await response.json();
     const dadosTentativa = resultado.dadosTentativa;
     
+    setBuscaTexto('');
     // Adiciona a tentativa ao histórico (no início)
     setTentativas([resultado, ...tentativas]);
     
     if (resultado.comparacao.nomeCorreto) {
       setAcertou(true);
-      alert("Parabéns! Você acertou o pokémon secreto!");
     }
   }
 
@@ -171,7 +171,10 @@ function Home() {
             setBuscaTexto(e.target.value);
             setMostrarLista(true);
           }}
-          onFocus={() => setMostrarLista(true)}
+          onFocus={() => {
+            setBuscaTexto('');
+            setMostrarLista(true);
+          }}
           placeholder="Digite o nome do Pokémon..."
           style={{
             width: '100%',
@@ -184,7 +187,7 @@ function Home() {
           }}
         />
         
-        {mostrarLista && buscaTexto && pokemonsFiltrados.length > 0 && (
+        {mostrarLista && pokemonsFiltrados.length > 0 && (
           <div style={{
             position: 'absolute',
             top: '60px',
@@ -193,12 +196,12 @@ function Home() {
             backgroundColor: 'white',
             border: '2px solid #ddd',
             borderRadius: '5px',
-            maxHeight: '200px',
+            maxHeight: '300px',
             overflowY: 'auto',
             zIndex: 1000,
             boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
           }}>
-            {pokemonsFiltrados.slice(0, 10).map((pokemon) => (
+            {pokemonsFiltrados.map((pokemon) => (
               <div
                 key={pokemon.id}
                 onClick={() => {
@@ -209,6 +212,7 @@ function Home() {
                 style={{
                   padding: '10px',
                   cursor: 'pointer',
+                  height: '50px',
                   borderBottom: '1px solid #eee',
                   backgroundColor: 'white',
                   transition: 'background-color 0.2s'
@@ -216,17 +220,12 @@ function Home() {
                 onMouseEnter={(e) => e.target.style.backgroundColor = '#f0f0f0'}
                 onMouseLeave={(e) => e.target.style.backgroundColor = 'white'}
               >
-                #{pokemon.id} - {pokemon.displayName}
+                <img src={pokemon.imagem} alt={pokemon.displayName} style={{ height: '70px', verticalAlign: 'middle', marginRight: '5px' }} /> {pokemon.id} - {pokemon.displayName}
               </div>
             ))}
           </div>
         )}
         
-        {pokemonSelecionado && (
-          <p style={{ margin: '10px 0', color: '#555' }}>
-            Selecionado: <strong>{buscaTexto}</strong>
-          </p>
-        )}
 
         <button 
           onClick={enviarTentativa}

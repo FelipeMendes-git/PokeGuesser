@@ -22,7 +22,7 @@ export default async function handler(req, res) {
       const pokemonList = data.results.map((pokemon, index) => ({
         id: index + 1,  // ID começa em 1
         name: pokemon.name,
-        // Capitalizar primeira letra (bulbasaur → Bulbasaur)
+        imagem: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`,
         displayName: pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)
       }));
 
