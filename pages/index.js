@@ -104,7 +104,7 @@ function Home() {
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
       backgroundAttachment: 'fixed',
-      minHeight: 'calc(100vh - 70px)',
+      minHeight: '100vh',
       width: '100%',
       position: 'relative',
     }}>
@@ -112,7 +112,7 @@ function Home() {
         padding: '10px', 
         fontFamily: 'Arial, sans-serif', 
         maxWidth: '1200px', 
-        margin: '10px auto',
+        margin: '0 auto',
         boxSizing: 'border-box',
         width: '100%',
       }}>
