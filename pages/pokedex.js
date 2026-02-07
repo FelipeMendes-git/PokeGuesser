@@ -74,6 +74,8 @@ function home() {
                 border-radius: 8px;
                 padding: 1rem;
                 width: 80%;
+                min-width: 200px;
+                min-height: 400px;
                 display: flex;
                 flex-direction: column;
                 gap: 0.8rem;
@@ -185,6 +187,11 @@ function home() {
                     padding: 0.5rem 0;
                     font-size: 14px;
                 }
+                
+                .pokemon-info-container {
+                    min-width: unset;
+                    min-height: unset;
+                }
             }
         `}</style>
         <div style={{
@@ -236,44 +243,46 @@ function home() {
                         {pokemonSelecionado ? pokemonSelecionado.name.charAt(0).toUpperCase() + pokemonSelecionado.name.slice(1) : "SELECIONE UM POKEMON"}
                     </div>
 
-                    {pokemonSelecionado && (
-                        <div className="pokemon-info-container">
-                            <div className="info-item">
-                                Número: #{pokemonSelecionado.id}
-                            </div>
-                            <div className="info-item">
-                                Tipo: {pokemonSelecionado.types.map(t => t.type.name).join(', ')}
-                            </div>
-                            <div className="info-item">
-                                Altura: {pokemonSelecionado.height / 10}m
-                            </div>
-                            <div className="info-item">
-                                Peso: {pokemonSelecionado.weight / 10}kg
-                            </div>
-                            
-                            <div className="stats-container">
-                                <div className="stats-title">
-                                    Estatísticas:
-                                </div>
-                                <div className="stats-grid">
-                                    {pokemonSelecionado.stats.map(stat => (
-                                        <div key={stat.stat.name} className="stat-item">
-                                            <strong>{stat.stat.name}:</strong> {stat.base_stat}
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className="stats-container">
+                    <div className="pokemon-info-container">
+                        {pokemonSelecionado && (
+                            <>
                                 <div className="info-item">
-                                    Habilidades:
+                                    Número: #{pokemonSelecionado.id}
                                 </div>
-                                <div className="stat-item">
-                                    {pokemonSelecionado.abilities.map(a => a.ability.name).join(', ')}
+                                <div className="info-item">
+                                    Tipo: {pokemonSelecionado.types.map(t => t.type.name).join(', ')}
                                 </div>
-                            </div>
-                        </div>
-                    )}
+                                <div className="info-item">
+                                    Altura: {pokemonSelecionado.height / 10}m
+                                </div>
+                                <div className="info-item">
+                                    Peso: {pokemonSelecionado.weight / 10}kg
+                                </div>
+                                
+                                <div className="stats-container">
+                                    <div className="stats-title">
+                                        Estatísticas:
+                                    </div>
+                                    <div className="stats-grid">
+                                        {pokemonSelecionado.stats.map(stat => (
+                                            <div key={stat.stat.name} className="stat-item">
+                                                <strong>{stat.stat.name}:</strong> {stat.base_stat}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="stats-container">
+                                    <div className="info-item">
+                                        Habilidades:
+                                    </div>
+                                    <div className="stat-item">
+                                        {pokemonSelecionado.abilities.map(a => a.ability.name).join(', ')}
+                                    </div>
+                                </div>
+                            </>
+                        )}
+                    </div>
 
 
                 </div>
