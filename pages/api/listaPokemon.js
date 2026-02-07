@@ -18,13 +18,30 @@ export default async function handler(req, res) {
 
       const data = await response.json();
       
-      // Extrair apenas os nomes e adicionar IDs
-      const pokemonList = data.results.map((pokemon, index) => ({
-        id: index + 1,  // ID começa em 1
-        name: pokemon.name,
-        imagem: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`,
-        displayName: pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)
-      }));
+      // Buscar detalhes de cada pokemon para pegar o tipo
+      const pokemonList = await Promise.all(
+        data.results.map(async (pokemon, index) => {
+          let type = null;
+          try {
+            const detailResponse = await fetch(pokemon.url);
+            if (detailResponse.ok) {
+              const detailData = await detailResponse.json();
+              if (detailData.types && detailData.types.length > 0) {
+                type = detailData.types[0].type.name;
+              }
+            }
+          } catch (e) {
+            // fallback para normal se der erro
+          }
+          return {
+            id: index + 1,
+            name: pokemon.name,
+            imagem: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`,
+            displayName: pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1),
+            type
+          };
+        })
+      );
 
       res.status(200).json({ pokemons: pokemonList });
       

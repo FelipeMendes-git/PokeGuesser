@@ -40,11 +40,9 @@ function Home() {
   useEffect(() => {
     document.body.style.margin = '0';
     document.body.style.padding = '0';
-    document.body.style.overflow = 'auto';
     return () => {
       document.body.style.margin = '';
       document.body.style.padding = '';
-      document.body.style.overflow = '';
     };
   }, []);
 
@@ -106,20 +104,21 @@ function Home() {
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
       backgroundAttachment: 'fixed',
-      minHeight: '100vh',
+      minHeight: 'calc(100vh - 70px)',
       width: '100%',
-      position: 'relative'
+      position: 'relative',
+      overflow: 'hidden'
     }}>
       <div style={{
         padding: '20px', 
         fontFamily: 'Arial, sans-serif', 
         maxWidth: '1200px', 
-        margin: '0 auto'
+        margin: '10px auto'
       }}>
       <div style={{ textAlign: 'center', marginBottom: '20px' }}>
         <h1 style={{ 
           color: '#333', 
-          backgroundColor: 'rgba(255, 255, 255, 0.9)', 
+          backgroundColor: 'rgba(255, 255, 255)', 
           display: 'inline-block', 
           padding: '10px 20px', 
           borderRadius: '10px',
