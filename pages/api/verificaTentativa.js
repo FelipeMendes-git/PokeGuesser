@@ -8,9 +8,6 @@ export default async function handler(req, res) {
     // Pega os dados enviados
     const { pokemonTentado, pokemonSecreto } = req.body;
 
-    console.log("Pokémon tentado:", pokemonTentado);
-    console.log("Pokémon secreto:", pokemonSecreto.name);
-
     // Busca os dados do pokémon tentado da PokeAPI
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonTentado}`);
     const dadosTentativa = await response.json();

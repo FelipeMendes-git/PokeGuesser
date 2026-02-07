@@ -59,43 +59,209 @@ function home() {
     console.log(listaPokemon);
 
     return (
+        <>
+        <style jsx>{`
+            .pokemon-image-container {
+                background-color: #fff;
+                width: 90%;
+                height: 30%;
+                border-radius: 8px;
+                margin-top: 1rem;
+            }
+            
+            .pokemon-info-container {
+                background-color: rgba(255, 255, 255);
+                border-radius: 8px;
+                padding: 1rem;
+                width: 80%;
+                display: flex;
+                flex-direction: column;
+                gap: 0.8rem;
+                margin-top: 2rem;
+                color: #000000;
+            }
+            
+            .info-item {
+                font-weight: bold;
+                font-size: 0.9rem;
+            }
+            
+            .stats-container {
+                border-top: 1px solid rgba(255,255,255,0.3);
+                padding-top: 0.8rem;
+            }
+            
+            .stats-title {
+                font-weight: bold;
+                font-size: 1rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .stats-grid {
+                display: flex;
+                flex-direction: column;
+                gap: 0.2rem;
+            }
+            
+            .stat-item {
+                font-size: 0.8rem;
+                margin-bottom: 0.2rem;
+            }
+            
+            @media (max-width: 768px) {
+                .pokemon-image-container {
+                    min-height: 80px;
+                    max-height: 150px;
+                    height: auto;
+                    margin-top: 0.5rem;
+                }
+                
+                .pokemon-info-container {
+                    padding: 0.5rem;
+                    gap: 0.3rem;
+                    margin-top: 1rem;
+                    width: 90%;
+                }
+                
+                .info-item {
+                    font-size: 0.7rem;
+                }
+                
+                .stats-container {
+                    padding-top: 0.3rem;
+                }
+                
+                .stats-title {
+                    font-size: 0.8rem;
+                    margin-bottom: 0.2rem;
+                }
+                
+                .stats-grid {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 0.2rem;
+                }
+                
+                .stat-item {
+                    font-size: 0.65rem;
+                    margin-bottom: 0;
+                }
+            }
+        `}</style>
         <div style={{
             backgroundImage: 'url("/imagens/ChatGPT Image 4 de fev. de 2026, 19_29_50.png")',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
             backgroundAttachment: 'fixed',
-            minHeight: '95vh',
+            minHeight: 'calc(100vh - 70px)',
             width: '100%',
             display: 'flex',
             justifyContent: 'center',
-            alignItems: 'center',
-            overflow: 'hidden',
-            padding: '2rem',
+            alignItems: 'flex-start',
+            padding: '1rem',
             boxSizing: 'border-box',
         }}>
             <div style={{
                 backgroundColor: '#ffffff',
                 width: '100%',
                 maxWidth: '100rem',
-                height: '50rem',
-                maxHeight: 'calc(100vh - 140px)',
+                minHeight: '300px',
                 display: 'flex',
-                alignItems: 'center',
+                alignItems: 'stretch',
                 justifyContent: 'center',
                 borderRadius: 16,
                 boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
                 flexWrap: 'wrap',
-                gap: '3rem',
+                gap: '1rem',
+                padding: '1rem',
+                boxSizing: 'border-box',
             }}>
+
+                <div style={{
+                    backgroundColor: pokemonSelecionado ? colorBackground[pokemonSelecionado.types[0].type.name] : 'rgba(253, 2, 2, 0.6)',
+                    flex: '1 1 250px',
+                    maxWidth: '350px',
+                    maxHeight: 'calc(100vh - 150px)',
+                    overflowY: 'auto',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    borderRadius: 8,
+                    fontSize: 'clamp(14px, 3vw, 20px)',
+                    fontWeight: 'bold',
+                    fontFamily: 'Arial, sans-serif',
+                    color: '#fff',
+                    padding: '1rem 0',
+                }}>
+                    <div className="pokemon-image-container" style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}>
+                        <img
+                            src={pokemonSelecionado ? pokemonSelecionado.sprites.front_default : null}
+                            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                        />
+                    </div>
+
+                    <div style={{ marginTop: '1rem' }}>
+                        {pokemonSelecionado ? pokemonSelecionado.name.charAt(0).toUpperCase() + pokemonSelecionado.name.slice(1) : "SELECIONE UM POKEMON"}
+                    </div>
+
+                    {pokemonSelecionado && (
+                        <div className="pokemon-info-container">
+                            <div className="info-item">
+                                Número: #{pokemonSelecionado.id}
+                            </div>
+                            <div className="info-item">
+                                Tipo: {pokemonSelecionado.types.map(t => t.type.name).join(', ')}
+                            </div>
+                            <div className="info-item">
+                                Altura: {pokemonSelecionado.height / 10}m
+                            </div>
+                            <div className="info-item">
+                                Peso: {pokemonSelecionado.weight / 10}kg
+                            </div>
+                            
+                            <div className="stats-container">
+                                <div className="stats-title">
+                                    Estatísticas:
+                                </div>
+                                <div className="stats-grid">
+                                    {pokemonSelecionado.stats.map(stat => (
+                                        <div key={stat.stat.name} className="stat-item">
+                                            <strong>{stat.stat.name}:</strong> {stat.base_stat}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="stats-container">
+                                <div className="info-item">
+                                    Habilidades:
+                                </div>
+                                <div className="stat-item">
+                                    {pokemonSelecionado.abilities.map(a => a.ability.name).join(', ')}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+
+                </div>
+
                 <div style={{
                     display: 'flex',
                     flexWrap: 'wrap',
-                    gap: '1.5rem',
+                    gap: '1rem',
                     overflowY: 'auto',
-                    height: '45rem',
-                    padding: '1rem',
-                    width: '70%',
+                    flex: '1 1 300px',
+                    minHeight: '200px',
+                    maxHeight: 'calc(100vh - 150px)',
+                    padding: '0.5rem',
+                    alignContent: 'flex-start',
+                    justifyContent: 'center',
                 }}
                 >
                     {listaPokemon.map(pokemon => (
@@ -111,7 +277,7 @@ function home() {
                                     : colorBackground[pokemon.type] || '#A8A878',
                                 borderRadius: 8,
                                 flexDirection: 'column',
-                                width: '10rem',
+                                width: 'clamp(6rem, 20vw, 10rem)',
                                 alignItems: 'center',
                                 border: 'none',
                                 padding: 0,
@@ -121,97 +287,20 @@ function home() {
                             }}>
                             <img
                                 src={pokemon.imagem}
-                                alt={pokemon.name} style={{ width: '6rem' }}
+                                alt={pokemon.name} style={{ width: 'clamp(4rem, 15vw, 6rem)' }}
                             />
                             <p style={{
                                 textAlign: 'center',
                                 width: '100%',
+                                fontSize: 'clamp(0.6rem, 2vw, 0.9rem)',
+                                margin: '0.3rem 0',
                             }}>{pokemon.id} - {pokemon.displayName}</p>
                         </button>
                     ))}
                 </div>
-                <div style={{
-                    backgroundColor: pokemonSelecionado ? colorBackground[pokemonSelecionado.types[0].type.name] : 'rgba(253, 2, 2, 0.6)',
-                    width: '20%',
-                    height: '90%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    alignSelf: 'center',
-                    borderRadius: 8,
-                    fontSize: '20px',
-                    fontWeight: 'bold',
-                    fontFamily: 'Arial, sans-serif',
-                    color: '#fff',
-                }}>
-                    <div style={{
-                        backgroundColor: '#fff',
-                        width: '90%',
-                        height: '30%',
-                        borderRadius: 8,
-                        marginTop: '1rem',
-                    }}>
-                        <img
-                            src={pokemonSelecionado ? pokemonSelecionado.sprites.front_default : null}
-                            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                        />
-                    </div>
-
-                    <div style={{ marginTop: '1rem' }}>
-                        {pokemonSelecionado ? pokemonSelecionado.name.charAt(0).toUpperCase() + pokemonSelecionado.name.slice(1) : "SELECIONE UM POKEMON"}
-                    </div>
-
-                    {pokemonSelecionado && (
-                        <div style={{
-                            backgroundColor: 'rgba(255, 255, 255)',
-                            borderRadius: 8,
-                            padding: '1rem',
-                            width: '80%',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '0.8rem',
-                            marginTop: '2rem',
-                            color: '#000000',
-                        }}>
-                            <div style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>
-                                Número: #{pokemonSelecionado.id}
-                            </div>
-                            <div style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>
-                                Tipo: {pokemonSelecionado.types.map(t => t.type.name).join(', ')}
-                            </div>
-                            <div style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>
-                                Altura: {pokemonSelecionado.height / 10}m
-                            </div>
-                            <div style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>
-                                Peso: {pokemonSelecionado.weight / 10}kg
-                            </div>
-                            
-                            <div style={{ borderTop: '1px solid rgba(255,255,255,0.3)', paddingTop: '0.8rem' }}>
-                                <div style={{ fontWeight: 'bold', fontSize: '1rem', marginBottom: '0.5rem' }}>
-                                    Estatísticas:
-                                </div>
-                                {pokemonSelecionado.stats.map(stat => (
-                                    <div key={stat.stat.name} style={{ fontSize: '0.8rem', marginBottom: '0.2rem' }}>
-                                        <strong>{stat.stat.name}:</strong> {stat.base_stat}
-                                    </div>
-                                ))}
-                            </div>
-
-                            <div style={{ borderTop: '1px solid rgba(255,255,255,0.3)', paddingTop: '0.8rem' }}>
-                                <div style={{ fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '0.3rem' }}>
-                                    Habilidades:
-                                </div>
-                                <div style={{ fontSize: '0.8rem' }}>
-                                    {pokemonSelecionado.abilities.map(a => a.ability.name).join(', ')}
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-
-                </div>
             </div>
         </div>
+        </>
 
 
     );

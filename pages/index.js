@@ -107,13 +107,14 @@ function Home() {
       minHeight: 'calc(100vh - 70px)',
       width: '100%',
       position: 'relative',
-      overflow: 'hidden'
     }}>
       <div style={{
-        padding: '20px', 
+        padding: '10px', 
         fontFamily: 'Arial, sans-serif', 
         maxWidth: '1200px', 
-        margin: '10px auto'
+        margin: '10px auto',
+        boxSizing: 'border-box',
+        width: '100%',
       }}>
       <div style={{ textAlign: 'center', marginBottom: '20px' }}>
         <h1 style={{ 
@@ -273,9 +274,9 @@ function Home() {
                 {/*imagem*/}
                 <div style={{
                   flex: '1',
-                  minWidth: '150px',
+                  minWidth: '100px',
                     backgroundColor: '#eee',
-                    padding: '15px',
+                    padding: '10px',
                     borderRadius: '8px',
                     textAlign: 'center'
                 }}>
@@ -283,6 +284,7 @@ function Home() {
                         <img 
                             src={tentativa.dadosTentativa.sprites.front_default} 
                             alt={tentativa.dadosTentativa.name}
+                            style={{ maxWidth: '100%', height: 'auto' }}
                         />
                     </div>
                 </div>
@@ -290,7 +292,7 @@ function Home() {
                 {/* Nome */}
                 <div style={{
                   flex: '1',
-                  minWidth: '150px',
+                  minWidth: '100px',
                   backgroundColor: tentativa.comparacao.nomeCorreto ? '#4CAF50' : '#f44336',
                   color: 'white',
                   padding: '15px',
@@ -306,7 +308,7 @@ function Home() {
                 {/* Geração */}
                 <div style={{
                   flex: '1',
-                  minWidth: '150px',
+                  minWidth: '100px',
                   backgroundColor: tentativa.comparacao.geracaoCorreta ? '#4CAF50' : '#f44336',
                   color: 'white',
                   padding: '15px',
@@ -322,7 +324,7 @@ function Home() {
                 {/* Tipo 1 */}
                 <div style={{
                   flex: '1',
-                  minWidth: '150px',
+                  minWidth: '100px',
                   backgroundColor: tentativa.comparacao.tipo1Correto ? '#4CAF50' : '#f44336',
                   color: 'white',
                   padding: '15px',
@@ -338,7 +340,7 @@ function Home() {
                 {/* Tipo 2 */}
                 <div style={{
                   flex: '1',
-                  minWidth: '150px',
+                  minWidth: '100px',
                   backgroundColor: tentativa.comparacao.tipo2Correto ? '#4CAF50' : '#f44336',
                   color: 'white',
                   padding: '15px',
@@ -354,7 +356,7 @@ function Home() {
                 {/* Peso */}
                 <div style={{
                   flex: '1',
-                  minWidth: '150px',
+                  minWidth: '100px',
                   backgroundColor: tentativa.comparacao.pesoCorreto === true ? '#4CAF50' : '#f44336',
                   color: 'white',
                   padding: '15px',

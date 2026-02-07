@@ -5,14 +5,15 @@ export default function Layout({ children }) {
     <>
       <nav style={{
         backgroundColor: '#ffffff',
-        padding: '1rem 2rem',
+        padding: '0.8rem 1rem',
         display: 'flex',
-        gap: '2rem',
+        gap: '1rem',
         alignItems: 'center',
         boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
         position: 'sticky',
         top: 0,
-        zIndex: 1000
+        zIndex: 1000,
+        flexWrap: 'wrap',
       }}>
         <div style={{
           display: 'flex',
