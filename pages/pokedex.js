@@ -108,6 +108,34 @@ function home() {
                 margin-bottom: 0.2rem;
             }
             
+            .pokemon-list-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1.5rem;
+                overflow-y: auto;
+                flex: 1 1 300px;
+                min-height: 200px;
+                max-height: calc(100vh - 150px);
+                padding: 0.5rem;
+                align-content: flex-start;
+                justify-content: center;
+            }
+            
+            .pokemon-card-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                border-radius: 8px;
+                font-weight: bold;
+                font-family: Arial, sans-serif;
+                color: #fff;
+                padding: 1rem 0;
+                flex: 1 1 250px;
+                max-width: 350px;
+                max-height: calc(100vh - 150px);
+                overflow-y: auto;
+            }
+            
             @media (max-width: 768px) {
                 .pokemon-image-container {
                     min-height: 80px;
@@ -146,6 +174,17 @@ function home() {
                     font-size: 0.65rem;
                     margin-bottom: 0;
                 }
+                
+                .pokemon-list-container {
+                    gap: 5px;
+                }
+                
+                .pokemon-card-container {
+                    flex: 1 1 180px;
+                    max-width: 350px;
+                    padding: 0.5rem 0;
+                    font-size: 14px;
+                }
             }
         `}</style>
         <div style={{
@@ -178,21 +217,9 @@ function home() {
                 boxSizing: 'border-box',
             }}>
 
-                <div style={{
+                <div className="pokemon-card-container" style={{
                     backgroundColor: pokemonSelecionado ? colorBackground[pokemonSelecionado.types[0].type.name] : 'rgba(253, 2, 2, 0.6)',
-                    flex: '1 1 250px',
-                    maxWidth: '350px',
-                    maxHeight: 'calc(100vh - 150px)',
-                    overflowY: 'auto',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    borderRadius: 8,
                     fontSize: 'clamp(14px, 3vw, 20px)',
-                    fontWeight: 'bold',
-                    fontFamily: 'Arial, sans-serif',
-                    color: '#fff',
-                    padding: '1rem 0',
                 }}>
                     <div className="pokemon-image-container" style={{
                         display: 'flex',
@@ -251,18 +278,7 @@ function home() {
 
                 </div>
 
-                <div style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    gap: '1rem',
-                    overflowY: 'auto',
-                    flex: '1 1 300px',
-                    minHeight: '200px',
-                    maxHeight: 'calc(100vh - 150px)',
-                    padding: '0.5rem',
-                    alignContent: 'flex-start',
-                    justifyContent: 'center',
-                }}
+                <div className="pokemon-list-container"
                 >
                     {listaPokemon.map(pokemon => (
                         <button
